@@ -3,6 +3,8 @@ using System.Collections;
 
 public class UnconventionalWeapon : MonoBehaviour
 {
+    public bool debug = false;
+
     public float distance = 10.0f;
     public Material blush;
 
@@ -38,7 +40,7 @@ public class UnconventionalWeapon : MonoBehaviour
     {
         if (target == null) return;
 
-        Debug.Log("not looking at " + target.name);
+        if (debug) Debug.Log("not looking at " + target.name);
 
         target.renderer.sharedMaterial = lastMaterial;
 
@@ -48,7 +50,7 @@ public class UnconventionalWeapon : MonoBehaviour
 
     private void OnLookAt()
     {
-        Debug.Log("look, it's " + hit.collider.gameObject.name + "!");
+        if (debug) Debug.Log("look, it's " + hit.collider.gameObject.name + "!");
 
         lastMaterial = hit.collider.gameObject.renderer.sharedMaterial;
         hit.collider.gameObject.renderer.sharedMaterial = blush;
@@ -59,8 +61,6 @@ public class UnconventionalWeapon : MonoBehaviour
 
     private void OnStareAt()
     {
-        //Debug.Log("look, it's " + target.name + ", again");
-
         UnconventionalVictim uv = target.GetComponent<UnconventionalVictim>();
         if (uv != null) uv.OnStareAt(this);
     }
