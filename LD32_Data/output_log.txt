@@ -1,0 +1,20 @@
+Initialize engine version: 4.6.4f1 (99f88340878d)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 780M (ID=0x119e)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\User\Documents\Ludum Dare\LD32 An Unconventional Weapon\LD32_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\User\Documents\Ludum Dare\LD32 An Unconventional Weapon\LD32_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\User\Documents\Ludum Dare\LD32 An Unconventional Weapon\LD32_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\User\Documents\Ludum Dare\LD32 An Unconventional Weapon\LD32_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\User\Documents\Ludum Dare\LD32 An Unconventional Weapon\LD32_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\User\Documents\Ludum Dare\LD32 An Unconventional Weapon\LD32_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.044 seconds
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 2560x1440 59Hz; virtual: 4480x1440 at -1920,0
+Platform assembly: C:\Users\User\Documents\Ludum Dare\LD32 An Unconventional Weapon\LD32_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\User\Documents\Ludum Dare\LD32 An Unconventional Weapon\LD32_Data\Managed\System.dll (this message is harmless)
