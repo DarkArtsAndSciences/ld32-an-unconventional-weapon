@@ -63,6 +63,8 @@
      <Compile Include="Assets\OVR\Scripts\Util\OVRUGUI.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRVisionGuide.cs" />
      <Compile Include="Assets\Scripts\CamChooser.cs" />
+     <Compile Include="Assets\Scripts\Shy.cs" />
+     <Compile Include="Assets\Scripts\UnconventionalVictim.cs" />
      <Compile Include="Assets\Scripts\UnconventionalWeapon.cs" />
      <None Include="Assets\Plugins\donotdelete.txt" />
      <None Include="Assets\Plugins\x86_64\donotdelete.txt" />

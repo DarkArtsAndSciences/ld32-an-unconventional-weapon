@@ -17,38 +17,52 @@ public class UnconventionalWeapon : MonoBehaviour
         {
             if (hit.collider.gameObject != target)
             {
-                if (target != null) OnLookAway();
+                OnLookAway();
                 OnLookAt();
             }
             else
+            {
                 OnStareAt();
-
+            }
             target = hit.collider.gameObject;
         }
         else
         {
-            if (target != null) OnLookAway();
+            OnLookAway();
+            target = null;
             OnLookAtNothing();
         }
     }
 
     private void OnLookAway()
     {
+        if (target == null) return;
+
         Debug.Log("not looking at " + target.name);
-        target.transform.renderer.sharedMaterial = lastMaterial;
-        target = null;
+
+        target.renderer.sharedMaterial = lastMaterial;
+
+        UnconventionalVictim uv = target.GetComponent<UnconventionalVictim>();
+        if (uv != null) uv.OnLookAway(this);
     }
 
     private void OnLookAt()
     {
         Debug.Log("look, it's " + hit.collider.gameObject.name + "!");
-        lastMaterial = hit.transform.renderer.sharedMaterial;
-        hit.transform.renderer.sharedMaterial = blush;
+
+        lastMaterial = hit.collider.gameObject.renderer.sharedMaterial;
+        hit.collider.gameObject.renderer.sharedMaterial = blush;
+
+        UnconventionalVictim uv = hit.collider.gameObject.GetComponent<UnconventionalVictim>();
+        if (uv != null) uv.OnLookAt(this);
     }
 
     private void OnStareAt()
     {
-        //Debug.Log("look, it's " + lastHit.collider.gameObject.name + ", again");
+        //Debug.Log("look, it's " + target.name + ", again");
+
+        UnconventionalVictim uv = target.GetComponent<UnconventionalVictim>();
+        if (uv != null) uv.OnStareAt(this);
     }
 
     private void OnLookAtNothing()
