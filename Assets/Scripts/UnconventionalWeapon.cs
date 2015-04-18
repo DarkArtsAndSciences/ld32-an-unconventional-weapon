@@ -6,11 +6,9 @@ public class UnconventionalWeapon : MonoBehaviour
     public bool debug = false;
 
     public float distance = 10.0f;
-    public Material blush;
 
-    private RaycastHit hit;
-    private GameObject target;
-    private Material lastMaterial;
+    protected RaycastHit hit;
+    protected GameObject target;
 
     void Update()
     {
@@ -36,36 +34,30 @@ public class UnconventionalWeapon : MonoBehaviour
         }
     }
 
-    private void OnLookAway()
+    protected virtual void OnLookAway()
     {
         if (target == null) return;
-
         if (debug) Debug.Log("not looking at " + target.name);
-
-        target.renderer.sharedMaterial = lastMaterial;
 
         UnconventionalVictim uv = target.GetComponent<UnconventionalVictim>();
         if (uv != null) uv.OnLookAway(this);
     }
 
-    private void OnLookAt()
+    protected virtual void OnLookAt()
     {
         if (debug) Debug.Log("look, it's " + hit.collider.gameObject.name + "!");
-
-        lastMaterial = hit.collider.gameObject.renderer.sharedMaterial;
-        hit.collider.gameObject.renderer.sharedMaterial = blush;
 
         UnconventionalVictim uv = hit.collider.gameObject.GetComponent<UnconventionalVictim>();
         if (uv != null) uv.OnLookAt(this);
     }
 
-    private void OnStareAt()
+    protected virtual void OnStareAt()
     {
         UnconventionalVictim uv = target.GetComponent<UnconventionalVictim>();
         if (uv != null) uv.OnStareAt(this);
     }
 
-    private void OnLookAtNothing()
+    protected virtual void OnLookAtNothing()
     {
         //Debug.Log("look, it's nothing, again");
     }
