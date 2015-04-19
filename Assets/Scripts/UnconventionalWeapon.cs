@@ -13,6 +13,7 @@ public class UnconventionalWeapon : MonoBehaviour
     void Update()
     {
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
+        Debug.DrawRay(transform.position, fwd, Color.red, 0.1f);
         if (Physics.Raycast(transform.position, fwd, out hit, distance))
         {
             if (hit.collider.gameObject != target)
