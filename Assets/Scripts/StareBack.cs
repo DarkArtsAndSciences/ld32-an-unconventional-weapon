@@ -3,9 +3,21 @@ using System.Collections;
 
 public class StareBack : UnconventionalVictim
 {
+    public bool randomize = true;
     public float bodyTurnSpeed = 1.0f;
     public float headTurnSpeed = 0.5f;
     public GameObject head;
+    //public GameObject[] eyes;
+    //public Material normalHeadMaterial, angryHeadMaterial, normalEyeMaterial, angryEyeMaterial;
+
+    void Start()
+    {
+        if (randomize)
+        {
+            bodyTurnSpeed = Random.Range(0.25f, 5.0f);
+            headTurnSpeed = Random.Range(0.1f, 2.0f);
+        }
+    }
 
     public override void OnStareAt(UnconventionalWeapon eye)
     {
