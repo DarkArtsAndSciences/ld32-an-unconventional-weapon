@@ -62,11 +62,9 @@
      <Compile Include="Assets\OVR\Scripts\Util\OVRScreenFade.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRUGUI.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRVisionGuide.cs" />
-     <Compile Include="Assets\Scripts\BodyInheritsHead.cs" />
      <Compile Include="Assets\Scripts\CamChooser.cs" />
-     <Compile Include="Assets\Scripts\Creepy.cs" />
+     <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\LockYRotation.cs" />
-     <Compile Include="Assets\Scripts\Shy.cs" />
      <Compile Include="Assets\Scripts\StareBack.cs" />
      <Compile Include="Assets\Scripts\Stepchild.cs" />
      <Compile Include="Assets\Scripts\UnconventionalVictim.cs" />
