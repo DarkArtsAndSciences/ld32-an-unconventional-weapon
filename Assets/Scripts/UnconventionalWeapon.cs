@@ -5,61 +5,52 @@ public class UnconventionalWeapon : MonoBehaviour
 {
     public bool debug = false;
 
-    public float distance = 10.0f;
-
     protected RaycastHit hit;
     protected GameObject target;
 
     void Update()
     {
-        Vector3 fwd = transform.TransformDirection(Vector3.forward);
-        Debug.DrawRay(transform.position, fwd, Color.red, 0.1f);
-        if (Physics.Raycast(transform.position, fwd, out hit, distance))
+        Vector3 forward = transform.TransformDirection(Vector3.forward);
+        Debug.DrawRay(transform.position, forward, Color.red);
+        if (Physics.Raycast(transform.position, forward, out hit))
         {
-            if (hit.collider.gameObject != target)
+            UnconventionalVictim uv;
+            if (target != hit.collider.gameObject)
             {
+                if (debug) Debug.Log(name + " looks away from " + target.name);
                 OnLookAway();
+                if (target != null)
+                {
+                    uv = target.GetComponent<UnconventionalVictim>();
+                    if (uv != null) uv.OnLookAway(this);
+                }
+
+                if (debug) Debug.Log(name + " looks at " + hit.collider.gameObject.name);
                 OnLookAt();
+                uv = hit.collider.gameObject.GetComponent<UnconventionalVictim>();
+                if (uv != null) uv.OnLookAt(this);
             }
             else
             {
                 OnStareAt();
+                uv = target.GetComponent<UnconventionalVictim>();
+                if (uv != null) uv.OnStareAt(this);
             }
             target = hit.collider.gameObject;
         }
         else
         {
+            if (debug) Debug.Log(name + " looks away from " + target.name);
             OnLookAway();
             target = null;
+
+            if (debug) Debug.Log(name + " looks at nothing.");
             OnLookAtNothing();
         }
     }
 
-    protected virtual void OnLookAway()
-    {
-        if (target == null) return;
-        if (debug) Debug.Log("not looking at " + target.name);
-
-        UnconventionalVictim uv = target.GetComponent<UnconventionalVictim>();
-        if (uv != null) uv.OnLookAway(this);
-    }
-
-    protected virtual void OnLookAt()
-    {
-        if (debug) Debug.Log("look, it's " + hit.collider.gameObject.name + "!");
-
-        UnconventionalVictim uv = hit.collider.gameObject.GetComponent<UnconventionalVictim>();
-        if (uv != null) uv.OnLookAt(this);
-    }
-
-    protected virtual void OnStareAt()
-    {
-        UnconventionalVictim uv = target.GetComponent<UnconventionalVictim>();
-        if (uv != null) uv.OnStareAt(this);
-    }
-
-    protected virtual void OnLookAtNothing()
-    {
-        //Debug.Log("look, it's nothing, again");
-    }
+    protected virtual void OnLookAway() { }
+    protected virtual void OnLookAt() { }
+    protected virtual void OnStareAt() { }
+    protected virtual void OnLookAtNothing() { }
 }

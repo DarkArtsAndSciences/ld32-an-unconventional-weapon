@@ -4,62 +4,64 @@ using System.Collections.Generic;
 
 public class Shy : UnconventionalVictim
 {
-    public float publicSpace = 10.0f;
-    public float personalSpace = 2.0f;
-    public float speed = 1.0f;
-    public float maxStareTime = 1.0f;
+    public Collider personalSpace;
+    public float maxStareLength = 1.0f;
+    public float normalSpeed = 1.0f;
+    public float nervousSpeed = 1.25f;
+    public float panicSpeed = 2.0f;
 
-    private float anxiety = 0.0f;
-    private Dictionary<UnconventionalWeapon, float> watchers;
+    public BoxCollider targetZone;
+    private bool isInTargetZone = false;
 
-    void Start()
+    public enum Mood { normal, nervous, panic }
+    private Mood mood = Mood.normal;
+
+    public override void Start()
     {
-        watchers = new Dictionary<UnconventionalWeapon, float>();
+        base.Start();
+        if (!personalSpace) Debug.LogError("Shy " + name + " has no personal space.");
     }
 
     void Update()
     {
-        anxiety -= 0.01f;
-        if (anxiety < 0.0f) anxiety = 0.0f;
-        if (anxiety > 10.0f) BackAway();
+        if (watchers.Count == 0)
+        {
+            mood = Mood.normal;
+        }
+        else
+        {
+            float stareLength = 0.0f;
+            foreach (KeyValuePair<UnconventionalWeapon, float> kvp in watchers)
+            {
+                stareLength += (Time.time - kvp.Value);  // kvp.Value == Time.time at OnLookAt
+                // TODO: get angle between my forward and their forward (my flee), then average and turn towards it
+            }
+            mood = stareLength < maxStareLength ? Mood.nervous : Mood.panic;
+        }
+
+        if (!isInTargetZone)
+            transform.LookAt(targetZone.center);
+        Debug.DrawRay(transform.position, transform.forward, Color.green);
+
+        float speed = (mood == Mood.normal) ? normalSpeed : (mood == Mood.nervous) ? nervousSpeed : panicSpeed;
+        transform.Translate(transform.forward * speed * Time.deltaTime);
     }
 
-    private void BackAway()
+    public void OnTriggerEnter(Collider other)
     {
-        if (watchers.Count == 0) return;
-
-        foreach (KeyValuePair<UnconventionalWeapon, float> kvp in watchers)
+        if (other == targetZone)
         {
-            float since = Time.time - kvp.Value;  // Time.time at OnLookAt
-            if (since > maxStareTime)
-            {
-                float distance = Vector3.Distance(transform.position, kvp.Key.transform.position);
-                if (distance < publicSpace)
-                {
-                    float closeness = 1.0f;
-                    if (distance > personalSpace)
-                        closeness = (distance - personalSpace) / (publicSpace - personalSpace);
-                    Vector3 newPosition = new Vector3(kvp.Key.transform.position.x, transform.position.y, kvp.Key.transform.position.z);
-                    transform.position = Vector3.MoveTowards(transform.position, newPosition, -speed * closeness * Time.deltaTime);
-                }
-            }
+            isInTargetZone = true;
+            if (debug) Debug.Log(name + " entered target zone " + targetZone.name);
         }
     }
 
-    public override void OnLookAt(UnconventionalWeapon eye)
+    public void OnTriggerExit(Collider other)
     {
-        if (debug) Debug.Log("Help! " + eye.name + " is looking at me!  " + anxiety);
-        watchers.Add(eye, Time.time);
-    }
-
-    public override void OnLookAway(UnconventionalWeapon eye)
-    {
-        if (debug) Debug.Log("Nevermind, " + eye.name + " left me alone.  " + anxiety);
-        watchers.Remove(eye);
-    }
-
-    public override void OnStareAt(UnconventionalWeapon eye)
-    {
-        anxiety += 0.1f;  // TODO: * distance from self to eye
+        if (other == targetZone)
+        {
+            isInTargetZone = false;
+            if (debug) Debug.Log(name + " left target zone " + targetZone.name);
+        }
     }
 }

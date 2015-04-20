@@ -1,11 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public abstract class UnconventionalVictim : MonoBehaviour 
+public class UnconventionalVictim : MonoBehaviour 
 {
     public bool debug = false;
+    protected Dictionary<UnconventionalWeapon, float> watchers;
 
-    public abstract void OnLookAt(UnconventionalWeapon eye);
-    public abstract void OnLookAway(UnconventionalWeapon eye);
-    public abstract void OnStareAt(UnconventionalWeapon eye);
+    public virtual void Start()
+    {
+        watchers = new Dictionary<UnconventionalWeapon, float>();
+    }
+
+    public virtual void OnLookAt(UnconventionalWeapon eye)
+    {
+        watchers.Add(eye, Time.time);
+    }
+
+    public virtual void OnStareAt(UnconventionalWeapon eye) { }
+
+    public virtual void OnLookAway(UnconventionalWeapon eye)
+    {
+        watchers.Remove(eye);
+    }
 }
